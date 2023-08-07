@@ -99,6 +99,8 @@ app.post("/updateemployee/:id", (req, res) => {
   });
 });
 
+// ====================> delet data
+
 app.post("/deleteemployee/:id", (req, res) => {
   let sql = `DELETE FROM employeetable WHERE id = ${req.params.id}`;
   db.query(sql, (err) => {
