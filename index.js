@@ -9,16 +9,18 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "employee",
+  // host: "localhost",
+  // user: "root",
+  // password: "",
+  // database: "employee",
   // 65.254.59.195:3306
   // host: "119.155.206.103",
-  // host: "65.254.59.195",
-  // user: "tecstik_user",
-  // password: "Tecstik#123",
-  // database: "tecstik_Employee_Management",
+  host: "65.254.59.195",
+  // port: 3306,
+  user: "tecstik_testUser",
+  password: "kS]U*GS2~&ys",
+  database: "tecstik_Employee_Management",
+  timeout: 100000,
 });
 
 db.connect(function (err) {
@@ -203,7 +205,8 @@ app.get("/tasktable", (req, res) => {
 
 app.post("/SpecificTakeTable", (req, res) => {
   let { id, taskStatus, taskAssignor, taskAssignee } = req.body;
-  let sql =" SELECT * FROM tasktable WHERE id = ? OR + taskStatus = ? OR + taskAssignor = ? OR + taskAssignee = ?";
+  let sql =
+    " SELECT * FROM tasktable WHERE id = ? OR + taskStatus = ? OR + taskAssignor = ? OR + taskAssignee = ?";
   // + mysql.escape(req.body.position);
   db.query(sql, [id, taskStatus, taskAssignor, taskAssignee], (err, result) => {
     if (err) throw err;
@@ -216,3 +219,6 @@ app.post("/SpecificTakeTable", (req, res) => {
 app.listen("5000", () => {
   console.log("server start Port ===>", `http://localhost:5000`);
 });
+
+//  ~C:\xampp\phpMyAdmin\config.inc.php
+// https://www.freakyjolly.com/xampp-how-to-connect-a-remote-database-in-phpmyadmin/
