@@ -9,18 +9,18 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const db = mysql.createConnection({
-  // host: "localhost",
-  // user: "root",
-  // password: "",
-  // database: "employee",
+  host: "localhost",
+  user: "root",
+  password: "",
+  database: "employee",
   // 65.254.59.195:3306
   // host: "119.155.206.103",
-  host: "65.254.59.195",
-  // port: 3306,
-  user: "tecstik_testUser",
-  password: "kS]U*GS2~&ys",
-  database: "tecstik_Employee_Management",
-  timeout: 100000,
+  // host: "65.254.59.195",
+  // // port: 3306,
+  // user: "tecstik_testUser",
+  // password: "kS]U*GS2~&ys",
+  // database: "tecstik_Employee_Management",
+  // timeout: 100000,
 });
 
 db.connect(function (err) {
@@ -161,22 +161,26 @@ app.post("/SpecificTableData", (req, res) => {
 
 app.post("/tasktable", (req, res) => {
   let {
-    taskDescription,
+    taskId,
+    endTime,
+    taskName,
+    startTime,
     taskStatus,
+    targetTime,
     taskAssignor,
     taskAssignee,
-    startTime,
-    targetTime,
-    endTime,
+    taskDescription,
   } = req.body;
   let post = {
     taskDescription: taskDescription,
-    taskStatus: taskStatus,
-    taskAssignor: taskAssignor,
     taskAssignee: taskAssignee,
-    startTime: startTime,
+    taskAssignor: taskAssignor,
     targetTime: targetTime,
+    taskStatus: taskStatus,
+    startTime: startTime,
+    taskName: taskName,
     endTime: endTime,
+    taskId: taskId,
   };
 
   let sql = "INSERT INTO tasktable SET ?";
@@ -201,19 +205,24 @@ app.get("/tasktable", (req, res) => {
   });
 });
 
-// ====================> get specific data
+// ====================> get Specific Take Table 
 
 app.post("/SpecificTakeTable", (req, res) => {
-  let { id, taskStatus, taskAssignor, taskAssignee } = req.body;
+  let { id, taskStatus, taskAssignor, taskAssignee, taskId, taskName } =
+    req.body;
   let sql =
-    " SELECT * FROM tasktable WHERE id = ? OR + taskStatus = ? OR + taskAssignor = ? OR + taskAssignee = ?";
+    " SELECT * FROM tasktable WHERE id = ? OR + taskStatus = ? OR + taskAssignor = ? OR + taskAssignee = ? OR + taskId = ?  OR + taskName = ?";
   // + mysql.escape(req.body.position);
-  db.query(sql, [id, taskStatus, taskAssignor, taskAssignee], (err, result) => {
-    if (err) throw err;
-    else {
-      res.send(result), console.log(result);
+  db.query(
+    sql,
+    [id, taskStatus, taskAssignor, taskAssignee, taskId, taskName],
+    (err, result) => {
+      if (err) throw err;
+      else {
+        res.send(result), console.log(result);
+      }
     }
-  });
+  );
 });
 
 app.listen("5000", () => {
