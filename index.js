@@ -205,9 +205,9 @@ app.get("/tasktable", (req, res) => {
   });
 });
 
-// ====================> get Specific Take Table 
+// ====================> get Specific SpecificTaskeTable Table
 
-app.post("/SpecificTakeTable", (req, res) => {
+app.post("/SpecificTaskeTable", (req, res) => {
   let { id, taskStatus, taskAssignor, taskAssignee, taskId, taskName } =
     req.body;
   let sql =
@@ -223,6 +223,25 @@ app.post("/SpecificTakeTable", (req, res) => {
       }
     }
   );
+});
+
+// ====================> Update api
+
+app.post("/updateAssignTask", (req, res) => {
+  // let newName = "MERN Stack Developer";
+  // let department = "Developer";
+  let { id, taskStatus, taskAssignor, taskAssignee, taskId, taskName } =
+    req.body;
+  // console.log(id,taskAssignee);
+  // , department = '${department}'
+  let sql = `UPDATE tasktable SET taskAssignee = '${taskAssignee}' WHERE id = ${id}`;
+  db.query(sql, (err) => {
+    if (err) {
+      throw err;
+    }
+
+    res.send("Post updated...");
+  });
 });
 
 app.listen("5000", () => {
